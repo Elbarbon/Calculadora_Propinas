@@ -1,3 +1,4 @@
+import { Dispatch } from "react"
 const tipOptions = [
     {
       id: 'tip-10',
@@ -16,19 +17,26 @@ const tipOptions = [
     },
   ]
 
-export default function TipPorcentageForm() {
+type TipPorcentageFormProps = {
+  setTip: Dispatch<React.SetStateAction<number>>,
+  tip: number
+}
+
+export default function TipPorcentageForm({setTip, tip}: TipPorcentageFormProps) {
   return (
     <div>
         <h3 className="font-black text-2xl">Propina</h3>
         <form>
-            {tipOptions.map(tip => (
-                <div className="flex gap-2" key={tip.id}>
-                    <label htmlFor="">{tip.label}</label>
+            {tipOptions.map(tipOption => (
+                <div className="flex gap-2" key={tipOption.id}>
+                    <label htmlFor="">{tipOption.label}</label>
                     <input
-                        id={tip.id}
+                        id={tipOption.id}
                         type='radio'
                         name='tip'
-                        value={tip.value}
+                        value={tipOption.value}
+                        onChange={e => setTip(+e.target.value)} // The + sign is to convert the string to a number
+                        checked={tipOption.value === tip }
                     />
                 </div>
             ))}
